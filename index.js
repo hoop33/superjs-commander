@@ -19,7 +19,7 @@ YSS'      YSSP~YSSY    S*S           YSSP  S*S    SSS  YSSY    YSS'
  */
 
 /**
- * Build CLI tools rapidly with Super Commander!
+ * Build CLI tools rapidly with SuperJS Commander!
  */
 
 var cli = require('commander');
@@ -35,13 +35,6 @@ module.exports = {
 
     //add -v and --version aliases to the -V version command
     cli.option('-v, --version', '', cli.versionInformation);
-
-    //apply options
-    if (options && typeof options == 'object') {
-      options.forEach(function (option) {
-        cli.option.apply(cli, option);
-      });
-    }
 
     //determine the cli and cmd paths
     var cliPath = path.dirname(process.mainModule.filename);
