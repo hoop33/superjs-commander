@@ -1,0 +1,15 @@
+{
+  "name": "super-commander",
+  "version": "0.0.1",
+  "description": "Build CLI tools rapidly with the Super Commander!",
+  "main": "index.js",
+  "repository": "https://github.com/asleepinglion/super-commander",
+  "keywords": [
+    "CLI",
+    "Command",
+    "Line",
+    "Tool"
+  ],
+  "author": "Aaron Storck",
+  "license": "MIT"
+}
