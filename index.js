@@ -28,7 +28,7 @@ var fs = require('fs');
 
 module.exports = {
 
-  init: function (version, options) {
+  init: function (version, commandDir) {
 
     //set the version based on the SuperJS' version
     cli.version(version);
@@ -37,7 +37,8 @@ module.exports = {
     cli.option('-v, --version', '', cli.versionInformation);
 
     //determine the cli and cmd paths
-    var cliPath = path.dirname(process.mainModule.filename);
+    var cliPath = (commandDir) ? commandDir : path.dirname(process.mainModule.filename);
+    console.log(cliPath);
     var cmdPath = cliPath + '/commands';
 
     //get list of commands based on file name
