@@ -1,6 +1,6 @@
 {
   "name": "superjs-commander",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Build CLI tools rapidly with the SuperJS Commander!",
   "main": "index.js",
   "repository": "https://github.com/asleepinglion/superjs-commander",

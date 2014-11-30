@@ -38,7 +38,6 @@ module.exports = {
 
     //determine the cli and cmd paths
     var cliPath = (commandDir) ? commandDir : path.dirname(process.mainModule.filename);
-    console.log(cliPath);
     var cmdPath = cliPath + '/commands';
 
     //get list of commands based on file name
