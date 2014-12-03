@@ -1,6 +1,6 @@
 {
   "name": "superjs-commander",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "description": "Build CLI tools rapidly with the SuperJS Commander!",
   "main": "index.js",
   "repository": "https://github.com/asleepinglion/superjs-commander",
@@ -10,6 +10,10 @@
     "Line",
     "Tool"
   ],
+  "dependencies": {
+    "commander": "^2.5.0",
+    "superjs-base": "^0.2.0"
+  },
   "author": "Aaron Storck",
   "license": "MIT"
 }

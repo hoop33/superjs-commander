@@ -22,32 +22,46 @@ YSS'      YSSP~YSSY    S*S           YSSP  S*S    SSS  YSSY    YSS'
  * Build CLI tools rapidly with SuperJS Commander!
  */
 
+"use strict";
+
 var cli = require('commander');
 var path = require('path');
 var fs = require('fs');
+var Class = require('superjs-base');
 
-module.exports = {
+module.exports = Class.extend({
 
-  init: function (version, commandDir) {
+  init: function (config) {
+
+    var self = this;
+    this.config = config;
 
     //set the version based on the SuperJS' version
-    cli.version(version);
+    cli.version(config.version);
 
-    //add -v and --version aliases to the -V version command
-    cli.option('-v, --version', '', cli.versionInformation);
+    if( config.versionAliases && config.versionAliase === true ) {
+      //add -v and --version aliases to the -V version command
+      cli.option('-v, --version', '', cli.versionInformation);
+    }
+
+    if( config.autoHelp && config.autoHelp === true ) {
+      //display help information when the option is unknown
+      cli.unknownOption = cli.help;
+    }
 
     //determine the cli and cmd paths
-    var cliPath = (commandDir) ? commandDir : path.dirname(process.mainModule.filename);
-    var cmdPath = cliPath + '/commands';
+    config.cliPath = (config.cliPath) ? config.cliPath : path.dirname(process.mainModule.filename);
+    config.cmdPath = (config.cmdPath) ? config.cmdPath : config.cliPath + '/commands';
 
     //get list of commands based on file name
-    var commands = fs.readdirSync(cmdPath);
+    var commands = fs.readdirSync(config.cmdPath);
 
     //bind each command
     commands.map(function (fileName) {
 
       //load the command definition
-      var def = require(cmdPath + "/" + fileName.split('.')[0]);
+      var Definition = require(config.cmdPath + "/" + fileName.split('.')[0]);
+      var def = new Definition(self);
 
       //TODO: make sure all public methods of Commander are addressed
 
@@ -74,8 +88,16 @@ module.exports = {
           });
         }
 
-        //set the action
-        cmd.action(def.action);
+        //set the command action
+        cmd.action(function() {
+
+          //provide access to the underlying commander command object
+          def._cmd = this;
+
+          //redirect the action maintaining the this property for our class
+          def.action.apply(def,arguments);
+
+        });
 
       }
 
@@ -86,11 +108,20 @@ module.exports = {
 
   },
 
-  start: function() {
+  parse: function() {
 
     //parse the command line arguments
-    cli.parse(process.argv);
+    var results = cli.parse(process.argv);
+
+    //display help on empty command
+    if( this.config.autoHelp ) {
+      if( results.args.length === 0 ) {
+        cli.help();
+      }
+    }
+
+    return results;
 
   }
 
-};
+});
